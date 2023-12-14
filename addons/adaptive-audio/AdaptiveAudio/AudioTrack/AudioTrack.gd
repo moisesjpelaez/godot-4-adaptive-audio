@@ -56,7 +56,7 @@ func transition_to(layer_name: String = "", fade_time: float = 0.5) -> void:
 		active_layers.append(layer_name)
 
 	is_transitioning = false
-	emit_signal("transition_ended")
+	transition_ended.emit()
 
 
 func blend_layer(layer_name: String = "", fade_time: float = 0.5) -> void:
@@ -91,7 +91,7 @@ func stop_track(fade_time: float = 0.5) -> void:
 	
 	is_playing = false
 	active_layers.clear()
-	emit_signal("track_stopped")
+	track_stopped.emit()
 
 
 func add_layer() -> void:

@@ -24,11 +24,11 @@ var current_layer_name: String = ""
 
 
 func _ready() -> void:
-	add_layer_button.connect("pressed", Callable(self, "add_layer_track"))
+	add_layer_button.pressed.connect(add_layer_track)
 	
-	base_track_ui.connect("audio_updated", Callable(self, "set_current_track_name"))
-	base_track_ui.connect("track_started", Callable(self, "play_pressed"))
-	base_track_ui.connect("track_removed", Callable(self, "remove_pressed"))
+	base_track_ui.audio_updated.connect(set_current_track_name)
+	base_track_ui.track_started.connect(play_pressed)
+	base_track_ui.track_removed.connect(remove_pressed)
 	
 	base_track_ui.title.text = "BaseTrack" + str(get_index())
 
@@ -45,41 +45,41 @@ func set_current_track_name(new_name: String, new_path: String) -> void:
 	base_track_ui.file_dialog.current_path = new_path
 	base_track_ui.file_label.text = base_track_ui.file_dialog.current_file
 	
-	emit_signal("base_track_updated", get_index(), new_name, new_path)
+	base_track_updated.emit(get_index(), new_name, new_path)
 
 
 func add_layer_track() -> LayerTrackUI:
 	var new_controls: LayerTrackUI = LAYER_TRACK.instantiate()
 	layers.add_child(new_controls)
-	new_controls.connect("audio_updated", Callable(self, "update_layer_track"))
-	new_controls.connect("transitioned", Callable(self, "transition_to"))
-	new_controls.connect("blended", Callable(self, "blend_layer"))
-	new_controls.connect("track_removed", Callable(self, "remove_layer_track"))
-	emit_signal("layer_added", get_index())
+	new_controls.audio_updated.connect(update_layer_track)
+	new_controls.transitioned.connect(transition_to)
+	new_controls.blended.connect(blend_layer)
+	new_controls.track_removed.connect(remove_layer_track)
+	layer_added.emit(get_index())
 	return new_controls
 
 
 func update_layer_track(layer_index: int, new_name: String, new_path: String) -> void:
-	emit_signal("layer_updated", get_index(), layer_index, new_name, new_path)
+	layer_updated.emit(get_index(), layer_index, new_name, new_path)
 
 
 func transition_to(layer_name: String, fade_time: float) -> void:
-	emit_signal("transitioned", current_track_name, layer_name, fade_time)
+	transitioned.emit(current_track_name, layer_name, fade_time)
 
 
 func blend_layer(layer_name: String, fade_time: float) -> void:
-	emit_signal("blended", current_track_name, layer_name, fade_time)
+	blended.emit(current_track_name, layer_name, fade_time)
 
 
 func remove_layer_track(index: int) -> void:
 	layers.get_child(index).queue_free()
-	emit_signal("layer_removed", get_index(), index)
+	layer_removed.emit(get_index(), index)
 
 
 func play_pressed(fade_time: float) -> void:
-	emit_signal("track_started", current_track_name, fade_time, "")
+	track_started.emit(current_track_name, fade_time, "")
 
 
 func remove_pressed() -> void:
-	emit_signal("track_removed", get_index())
+	track_removed.emit(get_index())
 	queue_free()
