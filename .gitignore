@@ -1,3 +1,8 @@
+# Testing folders
+[Aa]utoload/
+_music/
+_test
+
 # Godot 4+ specific ignores
 .godot/
 
