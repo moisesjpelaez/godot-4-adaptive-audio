@@ -1,4 +1,4 @@
-tool
+@tool
 extends Panel
 class_name BaseTrackUI
 
@@ -8,52 +8,53 @@ signal track_removed
 
 var stream_path: String
 
-onready var title: Label = $Content/Title
-onready var track_name_edit: LineEdit = $Content/TrackName
+@onready var title: Label = $Content/Title
+@onready var track_name_edit: LineEdit = $Content/TrackName
 
-onready var fade_spin_box: SpinBox = $Content/FadeTime/SpinBox
-onready var fade_slider: HSlider = $Content/FadeTime/HSlider
+@onready var fade_spin_box: SpinBox = $Content/FadeTime/SpinBox
+@onready var fade_slider: HSlider = $Content/FadeTime/HSlider
 
-onready var file_label: Label = $Content/FileButtons/Label
-onready var select_audio_button: Button = $Content/FileButtons/Select
-onready var file_dialog: FileDialog = $FileDialog
+@onready var file_label: Label = $Content/FileButtons/Label
+@onready var select_audio_button: Button = $Content/FileButtons/Select
+@onready var file_dialog: FileDialog = $FileDialog
 
-onready var update_button: Button = $Content/TrackButtons/Update
-onready var play_button: Button = $Content/TrackButtons/Play
-onready var remove_button: Button = $Content/TrackButtons/Remove
+@onready var update_button: Button = $Content/TrackButtons/Update
+@onready var play_button: Button = $Content/TrackButtons/Play
+@onready var remove_button: Button = $Content/TrackButtons/Remove
 
 
 func _ready() -> void:
-	yield(owner, "ready")
+	if owner != null:
+		await owner.ready
 	
-	select_audio_button.connect("pressed", self, "_on_Select_pressed")
-	file_dialog.connect("file_selected", self, "_on_FileDialog_file_selected")
-	update_button.connect("pressed", self, "_on_Update_pressed")
+	select_audio_button.connect("pressed", Callable(self, "_on_Select_pressed"))
+	file_dialog.connect("file_selected", Callable(self, "_on_FileDialog_file_selected"))
+	update_button.connect("pressed", Callable(self, "_on_Update_pressed"))
 	
-	fade_spin_box.connect("value_changed", self, "_on_SpinBox_value_changed")
-	fade_slider.connect("value_changed", self, "_on_Slider_value_changed")
+	fade_spin_box.connect("value_changed", Callable(self, "_on_SpinBox_value_changed"))
+	fade_slider.connect("value_changed", Callable(self, "_on_Slider_value_changed"))
 	
-	play_button.connect("pressed", self, "_on_Play_pressed")
-	remove_button.connect("pressed", self, "_on_Remove_pressed")
+	play_button.connect("pressed", Callable(self, "_on_Play_pressed"))
+	remove_button.connect("pressed", Callable(self, "_on_Remove_pressed"))
 	
 	track_name_edit.text = title.text
 	track_name_edit.editable = false
 	
-	track_name_edit.connect("focus_entered", self, "_on_LineEdit_focus_entered")
-	track_name_edit.connect("focus_exited", self, "_on_LineEdit_focus_exited")
+	track_name_edit.connect("focus_entered", Callable(self, "_on_LineEdit_focus_entered"))
+	track_name_edit.connect("focus_exited", Callable(self, "_on_LineEdit_focus_exited"))
 	
-	track_name_edit.connect("gui_input", self, "_on_LineEdit_gui_input")
+	track_name_edit.connect("gui_input", Callable(self, "_on_LineEdit_gui_input"))
 
 
 func update_audio() -> void:
 	emit_signal("audio_updated", track_name_edit.text, stream_path)
 
 
-func can_drop_data(position: Vector2, data) -> bool:
+func _can_drop_data(position: Vector2, data) -> bool:
 	return typeof(data.files[0]) == TYPE_STRING and (data.files[0].get_extension() == "ogg" or data.files[0].get_extension() == "wav" or data.files[0].get_extension() == "mp3")
 
 
-func drop_data(position: Vector2, data) -> void:
+func _drop_data(position: Vector2, data) -> void:
 	stream_path = data.files[0]
 	file_dialog.current_path = stream_path
 	file_label.text = file_dialog.current_file
@@ -62,7 +63,7 @@ func drop_data(position: Vector2, data) -> void:
 
 func _on_LineEdit_gui_input(event: InputEvent) -> void:
 	if event is InputEventKey:
-		if event.pressed and event.scancode == KEY_ENTER:
+		if event.pressed and event.keycode == KEY_ENTER:
 			track_name_edit.release_focus()
 
 

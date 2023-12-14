@@ -1,4 +1,4 @@
-tool
+@tool
 extends VBoxContainer
 class_name AudioTrackUI
 
@@ -15,20 +15,20 @@ signal track_removed(index)
 
 const LAYER_TRACK: PackedScene = preload("res://addons/adaptive-audio/AudioTrackUI/LayerTrackUI/LayerTrackUI.tscn")
 
-onready var base_track_ui: BaseTrackUI = $TabContainer/Content/BaseTrackUI
-onready var layers: VBoxContainer = $TabContainer/Content/Panel/Layers/VBoxContainer
-onready var add_layer_button: Button = $TabContainer/Content/AddLayer
+@onready var base_track_ui: BaseTrackUI = $TabContainer/Content/BaseTrackUI
+@onready var layers: VBoxContainer = $TabContainer/Content/Panel/Layers/VBoxContainer
+@onready var add_layer_button: Button = $TabContainer/Content/AddLayer
 
 var current_track_name: String = ""
 var current_layer_name: String = ""
 
 
 func _ready() -> void:
-	add_layer_button.connect("pressed", self, "add_layer_track")
+	add_layer_button.connect("pressed", Callable(self, "add_layer_track"))
 	
-	base_track_ui.connect("audio_updated", self, "set_current_track_name")
-	base_track_ui.connect("track_started", self, "play_pressed")
-	base_track_ui.connect("track_removed", self, "remove_pressed")
+	base_track_ui.connect("audio_updated", Callable(self, "set_current_track_name"))
+	base_track_ui.connect("track_started", Callable(self, "play_pressed"))
+	base_track_ui.connect("track_removed", Callable(self, "remove_pressed"))
 	
 	base_track_ui.title.text = "BaseTrack" + str(get_index())
 
@@ -49,12 +49,12 @@ func set_current_track_name(new_name: String, new_path: String) -> void:
 
 
 func add_layer_track() -> LayerTrackUI:
-	var new_controls: LayerTrackUI = LAYER_TRACK.instance()
+	var new_controls: LayerTrackUI = LAYER_TRACK.instantiate()
 	layers.add_child(new_controls)
-	new_controls.connect("audio_updated", self, "update_layer_track")
-	new_controls.connect("transitioned", self, "transition_to")
-	new_controls.connect("blended", self, "blend_layer")
-	new_controls.connect("track_removed", self, "remove_layer_track")
+	new_controls.connect("audio_updated", Callable(self, "update_layer_track"))
+	new_controls.connect("transitioned", Callable(self, "transition_to"))
+	new_controls.connect("blended", Callable(self, "blend_layer"))
+	new_controls.connect("track_removed", Callable(self, "remove_layer_track"))
 	emit_signal("layer_added", get_index())
 	return new_controls
 

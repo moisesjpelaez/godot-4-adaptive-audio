@@ -1,28 +1,28 @@
-tool
+@tool
 extends Panel
 
 const AUDIO_TRACK_UI: PackedScene = preload("res://addons/adaptive-audio/AudioTrackUI/AudioTrackUI.tscn")
 
-onready var buttons_container: HBoxContainer = $Buttons
-onready var stop_button: Button = buttons_container.get_node("Stop")
-onready var add_button: Button = buttons_container.get_node("Add")
-onready var save_button: Button = buttons_container.get_node("Save")
-onready var load_button: Button = buttons_container.get_node("Load")
+@onready var buttons_container: HBoxContainer = $Buttons
+@onready var stop_button: Button = buttons_container.get_node("Stop")
+@onready var add_button: Button = buttons_container.get_node("Add")
+@onready var save_button: Button = buttons_container.get_node("Save")
+@onready var load_button: Button = buttons_container.get_node("Load")
 
-onready var file_dialog: FileDialog = $FileDialog
+@onready var file_dialog: FileDialog = $FileDialog
 
-onready var tracks_container: ScrollContainer = $MainPanel/AudioTracks
-onready var audio_tracks: HBoxContainer = tracks_container.get_node("HBoxContainer")
+@onready var tracks_container: ScrollContainer = $MainPanel/AudioTracks
+@onready var audio_tracks: HBoxContainer = tracks_container.get_node("HBoxContainer")
 
-onready var adaptive_audio: Node = $AdaptiveAudio
+@onready var adaptive_audio: Node = $AdaptiveAudio
 
 
 func _ready() -> void:
-	stop_button.connect("pressed", self, "_on_Stop_pressed")
-	add_button.connect("pressed", self, "_on_Add_pressed")
-	save_button.connect("pressed", self, "_on_Save_pressed")
-	load_button.connect("pressed", self, "_on_Load_pressed")
-	file_dialog.connect("file_selected", self, "_on_FileDialog_file_selected")
+	stop_button.connect("pressed", Callable(self, "_on_Stop_pressed"))
+	add_button.connect("pressed", Callable(self, "_on_Add_pressed"))
+	save_button.connect("pressed", Callable(self, "_on_Save_pressed"))
+	load_button.connect("pressed", Callable(self, "_on_Load_pressed"))
+	file_dialog.connect("file_selected", Callable(self, "_on_FileDialog_file_selected"))
 	
 
 func set_new_owner(node: Node) -> void:
@@ -72,18 +72,18 @@ func blend_layer(track_name: String, layer_name: String, fade_time: float) -> vo
 
 
 func _on_Add_pressed() -> void:
-	var audio_track_ui: AudioTrackUI = AUDIO_TRACK_UI.instance()
+	var audio_track_ui: AudioTrackUI = AUDIO_TRACK_UI.instantiate()
 	audio_tracks.add_child(audio_track_ui)
 	
-	audio_track_ui.connect("base_track_updated", self, "update_track")
-	audio_track_ui.connect("layer_added", self, "add_layer")
-	audio_track_ui.connect("layer_updated", self, "update_layer")
-	audio_track_ui.connect("layer_removed", self, "remove_layer")
-	audio_track_ui.connect("track_removed", self, "remove_track")
+	audio_track_ui.connect("base_track_updated", Callable(self, "update_track"))
+	audio_track_ui.connect("layer_added", Callable(self, "add_layer"))
+	audio_track_ui.connect("layer_updated", Callable(self, "update_layer"))
+	audio_track_ui.connect("layer_removed", Callable(self, "remove_layer"))
+	audio_track_ui.connect("track_removed", Callable(self, "remove_track"))
 	
-	audio_track_ui.connect("track_started", self, "play_track")
-	audio_track_ui.connect("transitioned", self, "transition_to")
-	audio_track_ui.connect("blended", self, "blend_layer")
+	audio_track_ui.connect("track_started", Callable(self, "play_track"))
+	audio_track_ui.connect("transitioned", Callable(self, "transition_to"))
+	audio_track_ui.connect("blended", Callable(self, "blend_layer"))
 	
 	add_track()
 
@@ -94,17 +94,16 @@ func _on_Stop_pressed() -> void:
 
 func _on_Save_pressed() -> void:
 	for node in adaptive_audio.get_children():
-		node.set_filename("")
+		node.set_scene_file_path("")
 		set_new_owner(node)
 	
 	var adaptive_audio_scene: PackedScene = PackedScene.new()
 	adaptive_audio_scene.pack(adaptive_audio)
+	
+	if !DirAccess.dir_exists_absolute("res://Autoload"):
+		DirAccess.make_dir_absolute("res://Autoload")
 
-	var dir: Directory = Directory.new()
-	if !dir.dir_exists("res://Autoload/"):
-		dir.make_dir("res://Autoload/")
-
-	ResourceSaver.save("res://Autoload/AdaptiveAudio.tscn", adaptive_audio_scene)
+	ResourceSaver.save(adaptive_audio_scene, "res://Autoload/AdaptiveAudio.tscn")
 
 
 func _on_Load_pressed() -> void:
@@ -112,7 +111,7 @@ func _on_Load_pressed() -> void:
 
 
 func _on_FileDialog_file_selected(path: String) -> void:
-	var adaptive_audio_node: Node = load(path).instance()
+	var adaptive_audio_node: Node = load(path).instantiate()
 	
 	if adaptive_audio_node.name != "AdaptiveAudio":
 		printerr("The selected scene isn't an 'AdaptiveAudio' node.")
@@ -121,7 +120,7 @@ func _on_FileDialog_file_selected(path: String) -> void:
 	
 	for audio_track in audio_tracks.get_children():
 		audio_track.remove_pressed()
-		yield(audio_track, "tree_exited")
+		await audio_track.tree_exited
 	
 	for i in adaptive_audio_node.get_children().size():
 		_on_Add_pressed()

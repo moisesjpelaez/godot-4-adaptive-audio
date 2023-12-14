@@ -1,4 +1,4 @@
-tool
+@tool
 extends Control
 class_name LayerTrackUI
 
@@ -9,45 +9,45 @@ signal track_removed(index)
 
 var stream_path: String
 
-onready var title: Label = $Content/Title
-onready var layer_name_edit: LineEdit = $Content/LayerName
+@onready var title: Label = $Content/Title
+@onready var layer_name_edit: LineEdit = $Content/LayerName
 
-onready var fade_spin_box: SpinBox = $Content/FadeTime/SpinBox
-onready var fade_slider: HSlider = $Content/FadeTime/HSlider
+@onready var fade_spin_box: SpinBox = $Content/FadeTime/SpinBox
+@onready var fade_slider: HSlider = $Content/FadeTime/HSlider
 
-onready var file_label: Label = $Content/FileButtons/Label
-onready var select_button: Button = $Content/FileButtons/Select
+@onready var file_label: Label = $Content/FileButtons/Label
+@onready var select_button: Button = $Content/FileButtons/Select
 
-onready var transition_button: Button = $Content/LayerButtons/Transition
-onready var blend_button: Button = $Content/LayerButtons/Blend
+@onready var transition_button: Button = $Content/LayerButtons/Transition
+@onready var blend_button: Button = $Content/LayerButtons/Blend
 
-onready var set_button: Button = $Content/LayerButtons/Set
-onready var remove_button: Button = $Content/LayerButtons/RemoveLayer
+@onready var set_button: Button = $Content/LayerButtons/Set
+@onready var remove_button: Button = $Content/LayerButtons/RemoveLayer
 
-onready var file_dialog: FileDialog = $FileDialog
+@onready var file_dialog: FileDialog = $FileDialog
 
 
 func _ready() -> void:
-	select_button.connect("pressed", self, "_on_Select_pressed")
-	set_button.connect("pressed", self, "_on_Set_pressed")
-	file_dialog.connect("file_selected", self, "_on_FileDialog_file_selected")
+	select_button.connect("pressed", Callable(self, "_on_Select_pressed"))
+	set_button.connect("pressed", Callable(self, "_on_Set_pressed"))
+	file_dialog.connect("file_selected", Callable(self, "_on_FileDialog_file_selected"))
 	
-	fade_spin_box.connect("value_changed", self, "_on_SpinBox_value_changed")
-	fade_slider.connect("value_changed", self, "_on_Slider_value_changed")
+	fade_spin_box.connect("value_changed", Callable(self, "_on_SpinBox_value_changed"))
+	fade_slider.connect("value_changed", Callable(self, "_on_Slider_value_changed"))
 	
-	transition_button.connect("pressed", self, "_on_Transition_pressed")
-	blend_button.connect("pressed", self, "_on_Blend_pressed")
+	transition_button.connect("pressed", Callable(self, "_on_Transition_pressed"))
+	blend_button.connect("pressed", Callable(self, "_on_Blend_pressed"))
 	
-	remove_button.connect("pressed", self, "_on_RemoveButton_pressed")
+	remove_button.connect("pressed", Callable(self, "_on_RemoveButton_pressed"))
 	
 	title.text = "Layer" + str(get_index())
 	
 	layer_name_edit.text = title.text
 	layer_name_edit.editable = false
 	
-	layer_name_edit.connect("focus_entered", self, "_on_LineEdit_focus_entered")
-	layer_name_edit.connect("focus_exited", self, "_on_LineEdit_focus_exited")
-	layer_name_edit.connect("gui_input", self, "_on_LineEdit_gui_input")
+	layer_name_edit.connect("focus_entered", Callable(self, "_on_LineEdit_focus_entered"))
+	layer_name_edit.connect("focus_exited", Callable(self, "_on_LineEdit_focus_exited"))
+	layer_name_edit.connect("gui_input", Callable(self, "_on_LineEdit_gui_input"))
 
 
 func set_layer_data(value: String, path: String) -> void:
@@ -59,11 +59,11 @@ func set_layer_data(value: String, path: String) -> void:
 	file_label.text = file_dialog.current_file
 
 
-func can_drop_data(position: Vector2, data) -> bool:
+func _can_drop_data(position: Vector2, data) -> bool:
 	return typeof(data.files[0]) == TYPE_STRING and (data.files[0].get_extension() == "ogg" or data.files[0].get_extension() == "wav" or data.files[0].get_extension() == "mp3")
 
 
-func drop_data(position: Vector2, data) -> void:
+func _drop_data(position: Vector2, data) -> void:
 	stream_path = data.files[0]
 	file_dialog.current_path = stream_path
 	file_label.text = file_dialog.current_file
@@ -72,7 +72,7 @@ func drop_data(position: Vector2, data) -> void:
 
 func _on_LineEdit_gui_input(event: InputEvent) -> void:
 	if event is InputEventKey:
-		if event.pressed and event.scancode == KEY_ENTER:
+		if event.pressed and event.keycode == KEY_ENTER:
 			layer_name_edit.release_focus()
 
 

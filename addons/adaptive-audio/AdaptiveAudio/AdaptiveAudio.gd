@@ -1,4 +1,4 @@
-tool
+@tool
 extends Node
 
 const AUDIO_TRACK: PackedScene = preload("res://addons/adaptive-audio/AdaptiveAudio/AudioTrack/AudioTrack.tscn")
@@ -10,7 +10,7 @@ func play_track(track_name: String, fade_time: float = 0.5, layer_name: String =
 		if current_track.is_playing:
 			if current_track.name != track_name:
 				current_track.stop_track(fade_time)
-				yield(current_track, "track_stopped")
+				await current_track.track_stopped
 			else:
 				current_track.transition_to(layer_name, fade_time)
 				return
@@ -24,7 +24,7 @@ func transition_to(track_name: String, layer_name: String = "", fade_time: float
 		return
 	
 	if current_track.is_transitioning:
-		yield(current_track, "transition_ended")
+		await current_track.transition_ended
 	
 	if current_track.name == track_name:
 		current_track.transition_to(layer_name, fade_time)
@@ -37,7 +37,7 @@ func blend_layer(track_name: String, layer_name: String = "", fade_time: float =
 		return
 	
 	if current_track.is_transitioning:
-		yield(current_track, "transition_ended")
+		await current_track.transition_ended
 	
 	if current_track.name == track_name:
 		current_track.blend_layer(layer_name, fade_time)
@@ -50,13 +50,13 @@ func stop_track(fade_time: float = 0.5) -> void:
 		return
 	
 	if current_track.is_transitioning:
-		yield(current_track, "transition_ended")
+		await current_track.transition_ended
 	
 	current_track.stop_track(fade_time)
 
 
 func add_track() -> void:
-	var audio_track: AudioTrack = AUDIO_TRACK.instance()
+	var audio_track: AudioTrack = AUDIO_TRACK.instantiate()
 	add_child(audio_track)
 
 

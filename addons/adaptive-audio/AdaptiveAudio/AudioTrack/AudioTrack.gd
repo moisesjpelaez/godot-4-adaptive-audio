@@ -1,4 +1,4 @@
-tool
+@tool
 extends Node
 class_name AudioTrack
 
@@ -9,9 +9,8 @@ var active_layers: Array = []
 var is_playing: bool = false
 var is_transitioning: bool = false
 
-onready var layers = $Content/Layers
-onready var tween: Tween = $Tween
-onready var base_track: AudioStreamPlayer = $Content/BaseTrack
+@onready var layers = $Content/Layers
+@onready var base_track: AudioStreamPlayer = $Content/BaseTrack
 
 
 func _ready() -> void:
@@ -40,18 +39,18 @@ func transition_to(layer_name: String = "", fade_time: float = 0.5) -> void:
 	if layer_name != "":
 		var layer_track: AudioStreamPlayer = layers.get_node(layer_name)
 		if layer_track.volume_db != 0:
-			tween.interpolate_property(layer_track, "volume_db", layer_track.volume_db, 0, fade_time, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-			tween.start()
-			yield(tween, "tween_all_completed")
+			var tween: Tween = get_tree().create_tween()
+			tween.tween_property(layer_track, "volume_db", 0, fade_time)
+			await tween.finished
 		
 	if active_layers.size() != 0:
+		var tween: Tween = get_tree().create_tween().set_parallel()
 		for current_layer_name in active_layers:
 			if current_layer_name == layer_name: 
 				continue
 			var current_layer_track: AudioStreamPlayer = layers.get_node(current_layer_name)
-			tween.interpolate_property(current_layer_track, "volume_db", current_layer_track.volume_db, -80, fade_time, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-		tween.start()
-		yield(tween, "tween_all_completed")
+			tween.tween_property(current_layer_track, "volume_db", -80, fade_time)
+		await tween.finished
 	
 	if !(layer_name in active_layers) and layer_name != "":
 		active_layers.append(layer_name)
@@ -67,23 +66,23 @@ func blend_layer(layer_name: String = "", fade_time: float = 0.5) -> void:
 		if layer_track.volume_db == 0: 
 			return
 		
-		tween.interpolate_property(layer_track, "volume_db", layer_track.volume_db, 0, fade_time, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-		tween.start()
+		var tween: Tween = get_tree().create_tween()
+		tween.tween_property(layer_track, "volume_db", 0, fade_time)
 	
 	if !(layer_name in active_layers) and layer_name != "":
 		active_layers.append(layer_name)
 
 
 func stop_track(fade_time: float = 0.5) -> void:
+	var tween: Tween = get_tree().create_tween().set_parallel()
 	if active_layers.size() != 0:
 		for current_layer_name in active_layers:
 			var layer_track: AudioStreamPlayer = layers.get_node(current_layer_name)
-			tween.interpolate_property(layer_track, "volume_db", layer_track.volume_db, -80, fade_time, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+			tween.tween_property(layer_track, "volume_db", -80, fade_time)
 			
-	tween.interpolate_property(base_track, "volume_db", base_track.volume_db, -80, fade_time, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-	tween.start()
+	tween.tween_property(base_track, "volume_db", -80, fade_time)
 	
-	yield(tween, "tween_all_completed")
+	await tween.finished
 	
 	base_track.stop()
 	

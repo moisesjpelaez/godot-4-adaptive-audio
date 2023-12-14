@@ -1,14 +1,14 @@
-tool
+@tool
 extends EditorPlugin
 
-const MAIN_PANEL = preload("res://addons/adaptive-audio/MainScene.tscn")
+const MAIN_PANEL: PackedScene = preload("res://addons/adaptive-audio/MainScene.tscn")
 var main_panel
 
 
 func _enter_tree() -> void:
-	main_panel = MAIN_PANEL.instance()
-	get_editor_interface().get_editor_viewport().add_child(main_panel)
-	make_visible(false)
+	main_panel = MAIN_PANEL.instantiate()
+	get_editor_interface().get_editor_main_screen().add_child(main_panel)
+	_make_visible(false)
 
 
 func _exit_tree() -> void:
@@ -16,18 +16,18 @@ func _exit_tree() -> void:
 		main_panel.queue_free()
 
 
-func has_main_screen() -> bool:
+func _has_main_screen() -> bool:
 	return true
 
 
-func make_visible(visible: bool) -> void:
+func _make_visible(visible: bool) -> void:
 	if main_panel:
 		main_panel.visible = visible
 
 
-func get_plugin_name() -> String:
+func _get_plugin_name() -> String:
 	return "Adaptive Audio"
 
 
-func get_plugin_icon() -> Texture:
-	return get_editor_interface().get_base_control().get_icon("AudioStreamPlayer", "EditorIcons")
+func _get_plugin_icon() -> Texture2D:
+	return EditorInterface.get_editor_theme().get_icon("AudioStreamPlayer", "EditorIcons")

@@ -1,101 +1,64 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://by0o23euwwm65"]
 
-[ext_resource path="res://addons/adaptive-audio/MainScene.gd" type="Script" id=2]
-[ext_resource path="res://addons/adaptive-audio/AdaptiveAudio/AdaptiveAudio.tscn" type="PackedScene" id=4]
+[ext_resource type="Script" path="res://addons/adaptive-audio/MainScene.gd" id="2"]
+[ext_resource type="PackedScene" path="res://addons/adaptive-audio/AdaptiveAudio/AdaptiveAudio.tscn" id="4"]
 
 [node name="MainScene" type="Panel"]
+custom_minimum_size = Vector2(480, 320)
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 480, 320 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( 2 )
+script = ExtResource("2")
 
 [node name="MainPanel" type="HSplitContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 8.0
-margin_right = -8.0
-margin_bottom = -40.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -40.0
 
 [node name="AudioTracks" type="ScrollContainer" parent="MainPanel"]
-margin_right = 1008.0
-margin_bottom = 552.0
+layout_mode = 2
 size_flags_vertical = 3
-scroll_vertical_enabled = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainPanel/AudioTracks"]
-margin_bottom = 552.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Buttons" type="HBoxContainer" parent="."]
+layout_mode = 0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -35.0
+offset_top = -35.0
 alignment = 1
 
 [node name="Stop" type="Button" parent="Buttons"]
-margin_left = 324.0
-margin_top = 7.0
-margin_right = 413.0
-margin_bottom = 27.0
+layout_mode = 2
 size_flags_vertical = 4
 text = "Stop playing"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Add" type="Button" parent="Buttons"]
-margin_left = 417.0
-margin_top = 7.0
-margin_right = 487.0
-margin_bottom = 27.0
+layout_mode = 2
 size_flags_vertical = 4
 text = "AddTrack"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Save" type="Button" parent="Buttons"]
-margin_left = 491.0
-margin_top = 7.0
-margin_right = 593.0
-margin_bottom = 27.0
+layout_mode = 2
 size_flags_vertical = 4
 text = "Save Autoload"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Load" type="Button" parent="Buttons"]
-margin_left = 597.0
-margin_top = 7.0
-margin_right = 700.0
-margin_bottom = 27.0
+layout_mode = 2
 size_flags_vertical = 4
 text = "Load Autoload"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="FileDialog" type="FileDialog" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -359.0
-margin_top = -199.0
-margin_right = 359.0
-margin_bottom = 199.0
-popup_exclusive = true
-window_title = "Open a File"
-mode = 0
-filters = PoolStringArray( "*.tscn" )
+filters = PackedStringArray("*.tscn")
 show_hidden_files = true
 
-[node name="AdaptiveAudio" parent="." instance=ExtResource( 4 )]
+[node name="AdaptiveAudio" parent="." instance=ExtResource("4")]
