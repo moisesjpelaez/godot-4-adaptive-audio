@@ -2,12 +2,12 @@
 extends EditorPlugin
 
 const MAIN_PANEL: PackedScene = preload("res://addons/adaptive-audio/MainScene.tscn")
-var main_panel
+var main_panel: Panel
 
 
 func _enter_tree() -> void:
 	main_panel = MAIN_PANEL.instantiate()
-	get_editor_interface().get_editor_main_screen().add_child(main_panel)
+	EditorInterface.get_editor_main_screen().add_child(main_panel)
 	_make_visible(false)
 
 

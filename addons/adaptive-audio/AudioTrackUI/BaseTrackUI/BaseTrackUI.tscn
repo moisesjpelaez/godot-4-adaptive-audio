@@ -27,7 +27,7 @@ text = "Base Track"
 
 [node name="TrackName" type="LineEdit" parent="Content"]
 layout_mode = 2
-text = "BaseTrack"
+text = "Base Track"
 placeholder_text = "Name"
 editable = false
 context_menu_enabled = false
@@ -95,5 +95,8 @@ size_flags_horizontal = 4
 text = "Remove track"
 
 [node name="FileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
 filters = PackedStringArray("*.ogg", "*.wav", "*.mp3")
 show_hidden_files = true
