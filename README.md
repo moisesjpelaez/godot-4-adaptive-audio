@@ -17,21 +17,26 @@ Simple adaptive audio plugin for Godot 4.
 
 
 ## Creating an audio setup
-- Press 'Add Track'
-   1. Set the track's name
-   2. Assign the transition fade time (preview only)
-   3. Drop the audio file in ogg, mp3 or wav format
-   4. Optionally select the audio file using the file viewer
-   5. Plays the track
-   6. Removes the track from the view
-2. Press 'Add Layer'
-   a. Transitions to a single layer. If it's in the same track, the base track keeps playing and the previous layer fades out. If it's pressed from a different track, the current track stops and the next track is player with the current layer.
-   b. Blends in the layer. If it's in the same track, the current layer adds up. Same behavior as 'Transition' if it's pressed from a different track.
-   c. Removes the current layer.
-3. Add as many tracks or layers as you like
-4. Save the current setup
-   a. It creates an AdaptiveAudio.tscn file and automatically adds it as an autoload in the current project
-5. If you close Godot you can load your saved saved setup
+Press 'Add Track':
+1. Set the track's name
+2. Assign the transition fade time (preview only)
+3. Drop the audio file in ogg, mp3 or wav format
+4. Optionally select the audio file using the file viewer
+5. Plays the track
+6. Removes the track from the view
+
+Press 'Add Layer':
+1. Transitions to a single layer. If it's in the same track, the base track keeps playing and the previous layer fades out. If it's pressed from a different track, the current track stops and the next track is player with the current layer.
+2. Blends in the layer. If it's in the same track, the current layer adds up. Same behavior as 'Transition' if it's pressed from a different track.
+3. Removes the current layer.
+
+Add as many tracks or layers as you like:
+
+
+Save the current setup:
+It creates an AdaptiveAudio.tscn file and automatically adds it as an autoload in the current project
+
+If you close Godot you can load your saved saved setup:
    
 
 ## Playing tracks with code
