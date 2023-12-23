@@ -64,4 +64,4 @@ The script has multiple methods but only the following ones are intended to be u
 - `blend_layer(track_name: String, layer_name: String = "", fade_time: float = 0.5)`: blends a layer to a specific track.
 - `stop_track(fade_time: float = 0.5)`: stops playing the current track and all its layers.
 
-_The rest of the methods are intended for the internal plugin's use._
+_The rest of the methods are intended for the plugin's internal use._
