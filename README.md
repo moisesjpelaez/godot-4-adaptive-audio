@@ -6,7 +6,7 @@ Simple adaptive audio plugin for Godot 4.
 1. Download and extract the 'adaptive-audio' folder under the 'addons' directory.
  
 
-## UI overview
+## General overview
 ![Godot_v4 2 1-stable_win64_3Up9HG1HQC](https://github.com/moisesjpelaez/godot-4-adaptive-audio/assets/24682046/533196a9-0486-45ea-ad89-6352df5b8aa2)
 
 1. Switches the main tab to the Adaptive Audio view.
@@ -18,14 +18,18 @@ Simple adaptive audio plugin for Godot 4.
 
 ## Creating an audio setup
 Press 'Add Track':
+![Godot_v4 2 1-stable_win64_1lCAePw750](https://github.com/moisesjpelaez/godot-4-adaptive-audio/assets/24682046/871557c5-73d6-4cb9-8059-b62eb99d03c7)
+
+![Godot_v4 2 1-stable_win64_uDS0nehvw2](https://github.com/moisesjpelaez/godot-4-adaptive-audio/assets/24682046/74c65a23-2e4a-4ac9-81dc-a49b57b6c2ff)
 1. Set the track's name
 2. Assign the transition fade time (preview only)
 3. Drop the audio file in ogg, mp3 or wav format
 4. Optionally select the audio file using the file viewer
 5. Plays the track
-6. Removes the track from the view
+6. Removes the track and all it's layers from the view
 
-Press 'Add Layer':
+Press 'Add Layer' from the bottom:
+
 1. Transitions to a single layer. If it's in the same track, the base track keeps playing and the previous layer fades out. If it's pressed from a different track, the current track stops and the next track is player with the current layer.
 2. Blends in the layer. If it's in the same track, the current layer adds up. Same behavior as 'Transition' if it's pressed from a different track.
 3. Removes the current layer.
