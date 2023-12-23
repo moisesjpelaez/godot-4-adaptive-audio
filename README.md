@@ -2,9 +2,11 @@
 Simple adaptive audio plugin for Godot 4.
 
 
+
 ## Installation
 1. Download and extract the 'adaptive-audio' folder under the 'addons' directory.
  
+
 
 ## General overview
 ![Godot_v4 2 1-stable_win64_3Up9HG1HQC](https://github.com/moisesjpelaez/godot-4-adaptive-audio/assets/24682046/533196a9-0486-45ea-ad89-6352df5b8aa2)
@@ -14,6 +16,7 @@ Simple adaptive audio plugin for Godot 4.
 3. Adds a new track.
 4. Saves the current audio setup as an autoload.
 5. Loads a saved audio setup into the view.
+
 
 
 ## Creating an audio setup
@@ -53,5 +56,6 @@ It creates an AdaptiveAudio.tscn file and automatically adds it as an autoload i
 
 If you close Godot you can load your saved saved setup:
    
+
 
 ## Playing tracks with code
