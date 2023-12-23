@@ -45,7 +45,7 @@ text = "Stop playing"
 [node name="Add" type="Button" parent="Buttons"]
 layout_mode = 2
 size_flags_vertical = 4
-text = "AddTrack"
+text = "Add Track"
 
 [node name="Save" type="Button" parent="Buttons"]
 layout_mode = 2
