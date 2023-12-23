@@ -17,13 +17,13 @@ Simple adaptive audio plugin for Godot 4.
 
 
 ## Creating an audio setup
-1. Press 'Add Track'
-   a. Set the track's name
-   b. Assign the transition fade time (preview only)
-   c. Drop the audio file in ogg, mp3 or wav format
-   d. Optionally select the audio file using the file viewer
-   e. Plays the track
-   f. Removes the track from the view
+- Press 'Add Track'
+   1. Set the track's name
+   2. Assign the transition fade time (preview only)
+   3. Drop the audio file in ogg, mp3 or wav format
+   4. Optionally select the audio file using the file viewer
+   5. Plays the track
+   6. Removes the track from the view
 2. Press 'Add Layer'
    a. Transitions to a single layer. If it's in the same track, the base track keeps playing and the previous layer fades out. If it's pressed from a different track, the current track stops and the next track is player with the current layer.
    b. Blends in the layer. If it's in the same track, the current layer adds up. Same behavior as 'Transition' if it's pressed from a different track.
