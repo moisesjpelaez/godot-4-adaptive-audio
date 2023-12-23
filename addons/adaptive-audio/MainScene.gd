@@ -1,6 +1,8 @@
 @tool
 extends Panel
 
+signal autoload_created
+
 const AUDIO_TRACK_UI: PackedScene = preload("res://addons/adaptive-audio/AudioTrackUI/AudioTrackUI.tscn")
 
 @onready var buttons_container: HBoxContainer = $Buttons
@@ -34,6 +36,7 @@ func _ready() -> void:
 			DirAccess.make_dir_absolute("res://Autoload")
 
 		ResourceSaver.save(adaptive_audio_scene, "res://Autoload/AdaptiveAudio.tscn")
+		autoload_created.emit()
 	)
 	load_button.pressed.connect(func () -> void:
 		file_dialog.popup_centered(Vector2(512, 384))
