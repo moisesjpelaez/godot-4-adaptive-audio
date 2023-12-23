@@ -50,9 +50,9 @@ _Also assign audio files, set fade times and test trantitions; play around..._
 
 It creates an AdaptiveAudio.tscn file and automatically adds it as an autoload in the current project
 
+**If you close Godot you can load your saved saved setup:**
+
 ![image](https://github.com/moisesjpelaez/godot-4-adaptive-audio/assets/24682046/51287aa8-c948-40db-8e8d-ce11498e4e4a)
 
-If you close Godot you can load your saved saved setup:
-  
 
 ## Playing tracks with code
