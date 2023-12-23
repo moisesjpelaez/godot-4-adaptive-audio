@@ -37,6 +37,7 @@ Simple adaptive audio plugin for Godot 4.
 3. Removes the current layer.
 
 **Add as many tracks and layers as you like:**
+
 _Also assign audio files, set fade times and test trantitions; play around..._
 
 ![Godot_v4 2 1-stable_win64_o2Ff8TY1hI](https://github.com/moisesjpelaez/godot-4-adaptive-audio/assets/24682046/ca301e1e-9e96-46f6-a60e-2c7fa926576d)
@@ -48,7 +49,7 @@ _Also assign audio files, set fade times and test trantitions; play around..._
 ![Godot_v4 2 1-stable_win64_Xnk6ccMADr](https://github.com/moisesjpelaez/godot-4-adaptive-audio/assets/24682046/a7150650-a9ea-4f67-b671-b5d4ad43c9f6)
 ![Godot_v4 2 1-stable_win64_22kC4XAct7](https://github.com/moisesjpelaez/godot-4-adaptive-audio/assets/24682046/d8a74a3c-df54-4922-930f-29aea420911e)
 
-It creates an AdaptiveAudio.tscn file and automatically adds it as an autoload in the current project
+_It creates an AdaptiveAudio.tscn file and automatically adds it as an autoload in the current project._
 
 **If you close and reopen Godot you can load your saved saved setup:**
 
