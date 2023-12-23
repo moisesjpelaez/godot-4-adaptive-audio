@@ -60,9 +60,9 @@ _It creates an AdaptiveAudio.tscn file and automatically adds it as an autoload 
 Use the `AdaptiveAudio` autoload singleton to call the methods from anywhere in your project.
 
 The script has multiple methods but only the following ones are intended to be used:
-- `play_track(track_name: String, fade_time: float = 0.5, layer_name: String = "")`: plays the BaseTrack. It can start playing using a single layer.
-- `transition_to(track_name: String, layer_name: String, fade_time: float = 0.5)`: transitions to a specific track.
-- `blend_layer(track_name: String, layer_name: String = "", fade_time: float = 0.5)`: blends a layer to a specific track.
-- `stop_track(fade_time: float = 0.5)`: stops playing the current track and all its layers.
+- `play_track`: plays the BaseTrack. It can start playing using a single layer.
+- `transition_to`: transitions to a specific track.
+- `blend_layer`: blends a layer to a specific track.
+- `stop_track`: stops playing the current track and all its layers.
 
 _The rest of the methods are intended for the plugin's internal use._
