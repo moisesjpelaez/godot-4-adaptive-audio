@@ -1,7 +1,9 @@
 # Godot 4 Adaptive Audio
 Simple adaptive audio plugin for Godot 4.
 \
+
 \
+
 ## Installation
 1. Download and extract the 'adaptive-audio' folder under the 'addons' directory.
 \
