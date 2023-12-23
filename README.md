@@ -50,9 +50,18 @@ _Also assign audio files, set fade times and test trantitions; play around..._
 
 It creates an AdaptiveAudio.tscn file and automatically adds it as an autoload in the current project
 
-**If you close Godot you can load your saved saved setup:**
+**If you close and reopen Godot you can load your saved saved setup:**
 
 ![image](https://github.com/moisesjpelaez/godot-4-adaptive-audio/assets/24682046/51287aa8-c948-40db-8e8d-ce11498e4e4a)
 
 
 ## Playing tracks with code
+Use the `AdaptiveAudio` autoload singleton to call the methods from anywhere in your project.
+
+The script has multiple methods but only the following ones are intended to be used:
+- `play_track(track_name: String, fade_time: float = 0.5, layer_name: String = "")`: plays the BaseTrack. It can start playing using a single layer.
+- `transition_to(track_name: String, layer_name: String, fade_time: float = 0.5)`: transitions to a specific track.
+- `blend_layer(track_name: String, layer_name: String = "", fade_time: float = 0.5)`: blends a layer to a specific track.
+- `stop_track(fade_time: float = 0.5)`: stops playing the current track and all its layers.
+
+_The rest of the methods are intended for the internal plugin's use._
